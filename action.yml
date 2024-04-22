@@ -1,11 +1,36 @@
-name: "Update package.json version on release"
-description: "Update your package.json version automatically when a new release is created, released, or published, using the release tag."
-author: "medallyon"
+name: Update local package.json version from release tag
+description: Update your local package.json version from the release tag passed to this workflow run
+author: BellCube
 
 branding:
   icon: "arrow-up"
   color: "green"
 
+inputs:
+  version:
+    description: The version number to set in the package.json file. If not provided, the release tag will be used.
+    required: false
+  keep-v:
+    description: If set to "true", will not remove any 'v' prefix from the version number.
+    required: false
+    default: "false"
+  ignore-semver-check:
+    description: If set to "true", will not check if the version number is a valid semver version.
+    required: false
+    default: "false"
+  package-json-path:
+    description: The path to the package.json file to update relative to the current working directory. Defaults to ""./package.json".
+    required: false
+    default: "./package.json"
+  encoding:
+    description: The encoding to use when reading and writing the package.json file. Defaults to "utf8".
+    required: false
+    default: "utf8"
+
+outputs:
+  version:
+    description: The version number from the release tag, as set in the package.json file.
+
 runs:
-  using: "node12"
-  main: "dist/index.js"
+  using: node20
+  main: dist/index.js
